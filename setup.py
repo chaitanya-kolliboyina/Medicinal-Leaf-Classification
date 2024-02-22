@@ -7,7 +7,7 @@ __version__ = "0.0.0"
 
 REPO_NAME = "Medicinal-Leaf-Classification"
 AUTHOR_USERNAME = "chaitanya-kolliboyina"
-SRC_REPO = "MedicineLeaf-Classifier"
+SRC_REPO = "MedicineLeafClassifier"
 AUTHOR_EMAIL = "kvschaitanya17@gmail.com"
 
 setuptools.setup(
