@@ -1,3 +1,61 @@
 stages:
   data_ingestion:
-    cmd: python src/MedicineLeafClassifier/pipeline
+    cmd: python src/MedicineLeafClassifier/pipeline/stage_01_data_ingestion.py
+    deps:
+      - src/MedicineLeafClassifer/pipeline/stage_01_data_ingestion.py
+      - config/config.yaml
+    outs:
+      - "artifacts/data_ingestion/indian-medicinal-leaf-image-dataset/Medicnal Leaf dataset" 
+
+
+  prepare_base_model:
+    cmd: python src/MedicineLeafClassifier/pipeline/stage_02_prepare_base_model.py
+    deps:
+      - src/MedicineLeafClassifier/pipeline/stage_02_prepare_base_model.py
+      - config/config.yaml
+    params:
+      - IMAGE_SIZE
+      - INCLUDE_TOP
+      - CLASSES
+      - WEIGHTS
+      - AUGMENTATION
+      - BOUNDARIES
+      - LR_VALUES
+      - FREEZE
+    outs:
+      - artifacts/prepare_base_model
+
+
+
+  training:
+    cmd: python src/MedicineLeafClassifier/pipeline/stage_03_training.py
+    deps:
+      - src/MedicineLeafClassifier/pipeline/stage_03_training.py
+      - src/MedicineLeafClassifier/components/prepare_callbacks.py
+      - config/config.yaml
+      - artifacts/data_ingestion/indian-medicinal-leaf-image-dataset/Medicnal Leaf dataset
+      - artifacts/prepare_base_model
+    params:
+      - IMAGE_SIZE
+      - EPOCHS
+      - BATCH_SIZE
+      - AUGMENTATION
+    outs:
+      - artifacts/training/model.h5
+
+
+  
+
+  evaluation:
+    cmd: python src/MedicineLeafClassifier/pipeline/stage_04_evaluation.py
+    deps:
+      - src/MedicineLeafClassifier/pipeline/stage_04_evaluation.py
+      - config/config.yaml
+      - artifacts/data_ingestion/indian-medicinal-leaf-image-dataset/Medicnal Leaf dataset
+      - artifacts/training/model.h5
+    params:
+      - IMAGE_SIZE
+      - BATCH_SIZE
+    metrics:
+    - scores.json:
+        cache: false
