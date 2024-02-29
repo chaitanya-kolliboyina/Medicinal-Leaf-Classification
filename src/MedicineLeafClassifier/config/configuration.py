@@ -3,7 +3,8 @@ import os
 from MedicineLeafClassifier.utils.common import read_yaml,create_directories
 from MedicineLeafClassifier.entity.config_entity import (DataIngestionConfig,
                                                          PrepareBaseModelConfig,
-                                                         PrepareCallbacksConfig)
+                                                         PrepareCallbacksConfig,
+                                                         TrainingConfig)
 
 class ConfigurationManager:
     def __init__(
@@ -16,6 +17,8 @@ class ConfigurationManager:
 
         create_directories([self.config.artifacts_root])
 
+
+
     def get_data_ingestion_config(self) -> DataIngestionConfig:
         config = self.config.data_ingestion
         # print(config)
@@ -25,11 +28,12 @@ class ConfigurationManager:
             root_dir = config.root_dir,
             source_url = config.source_url,
             # local_data_file = config.local_data_file,
-            unzip_dir = config.unzip_dir
-            
+            unzip_dir = config.unzip_dir      
         )
         
         return data_ingestion_config
+    
+
     
     def get_prepare_base_model_config(self) -> PrepareBaseModelConfig:
         config = self.config.prepare_base_model
@@ -51,6 +55,8 @@ class ConfigurationManager:
 
         return prepare_base_model_config
     
+
+    
     def get_prepare_callbacks_config(self) -> PrepareCallbacksConfig:
 
         config = self.config.prepare_callbacks
@@ -69,3 +75,28 @@ class ConfigurationManager:
         )
 
         return prepare_callbacks_config
+    
+    
+
+    def get_training_config(self) -> TrainingConfig:
+        training = self.config.training
+        prepare_base_model = self.config.prepare_base_model
+        params = self.params
+        training_data = os.path.join(self.config.data_ingestion.unzip_dir, "indian-medicinal-leaf-image-dataset","Medicinal Leaf dataset")
+        create_directories([
+            Path(training.root_dir)
+        ])
+
+        trainig_config = TrainingConfig(
+            root_dir = Path(training.root_dir),
+            trained_model_path = Path(training.trained_model_path),
+            updated_base_model_path = Path(prepare_base_model.updated_base_model_path),
+            training_data = Path(training_data),
+            params_epochs = params.EPOCHS,
+            params_batch_size=params.BATCH_SIZE,
+            params_image_size=params.IMAGE_SIZE,
+            params_is_augmentation=params.AUGMENTATION,
+            params_seed = params.SEED
+        )
+
+        return trainig_config
