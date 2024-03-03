@@ -13,7 +13,7 @@ class DataIngestionConfig:
 class PrepareBaseModelConfig:
     root_dir: Path
     base_model_path: Path
-    updated_model_path: Path
+    updated_base_model_path: Path
     params_image_size:list
     params_boundaries: list
     params_learning_rate:list
@@ -51,3 +51,4 @@ class EvaluationConfig:
     all_params: dict
     params_image_size: list
     params_batch_size: int
+    params_seed: int 

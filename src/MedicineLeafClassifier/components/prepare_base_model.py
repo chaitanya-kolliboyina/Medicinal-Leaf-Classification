@@ -59,7 +59,7 @@ class PrepareBasemodel:
             learning_rate=self.config.params_learning_rate
         )
 
-        self.save_model(path=self.config.updated_model_path, model=self.full_model)
+        self.save_model(path=self.config.updated_base_model_path, model=self.full_model)
 
     @staticmethod
     def save_model(path:Path, model):

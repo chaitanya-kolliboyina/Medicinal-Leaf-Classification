@@ -13,7 +13,7 @@ class Training:
         )
     
     def train_valid_split(self):
-        train_data = tf.keras.preprocessing.image_dataset_from_directory(
+        self.train_data = tf.keras.preprocessing.image_dataset_from_directory(
              self.config.training_data,
              labels = 'inferred',
              label_mode = 'int',
@@ -27,7 +27,7 @@ class Training:
              subset='training',
              )
         
-        valid_data = tf.keras.preprocessing.image_dataset_from_directory(
+        self.valid_data = tf.keras.preprocessing.image_dataset_from_directory(
              self.config.training_data,
              labels = 'inferred',
              label_mode = 'int',
@@ -43,11 +43,11 @@ class Training:
         
         AUTOTUNE = tf.data.AUTOTUNE
 
-        train_data = train_data.cache().prefetch(buffer_size = AUTOTUNE)
+        self.train_data = self.train_data.cache().prefetch(buffer_size = AUTOTUNE)
 
-        valid_data = valid_data.cache().prefetch(buffer_size = AUTOTUNE)
+        self.valid_data = self.valid_data.cache().prefetch(buffer_size = AUTOTUNE)
 
-        return train_data, valid_data
+        
     
 
     @staticmethod
@@ -57,12 +57,12 @@ class Training:
         model.save(path)
     
     
-    def train(self, train_data, valid_data, callbacks_list: list):
+    def train(self,  callbacks_list: list):
         self.model.fit(
-            train_data,
+            self.train_data,
             epochs = self.config.params_epochs,
             
-            validation_data = valid_data,
+            validation_data = self.valid_data,
             
             callbacks = callbacks_list
         )

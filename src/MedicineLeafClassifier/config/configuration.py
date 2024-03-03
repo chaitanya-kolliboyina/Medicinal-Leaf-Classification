@@ -45,7 +45,7 @@ class ConfigurationManager:
         prepare_base_model_config = PrepareBaseModelConfig(
             root_dir=Path(config.root_dir),
             base_model_path=Path(config.base_model_path),
-            updated_model_path=Path(config.updated_base_model_path),
+            updated_base_model_path=Path(config.updated_base_model_path),
             params_image_size=self.params.IMAGE_SIZE,
             params_include_top=self.params.INCLUDE_TOP,
             params_weight=self.params.WEIGHTS,
@@ -109,7 +109,8 @@ class ConfigurationManager:
             training_data=Path("artifacts/data_ingestion/indian-medicinal-leaf-image-dataset/Medicinal Leaf dataset"),
             all_params=self.params,
             params_image_size=self.params.IMAGE_SIZE,
-            params_batch_size=self.params.BATCH_SIZE
+            params_batch_size=self.params.BATCH_SIZE,
+            params_seed=self.params.SEED
         )
 
         return eval_config

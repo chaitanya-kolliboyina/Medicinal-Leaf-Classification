@@ -9,8 +9,8 @@ class Evaluation:
         self.config = config
 
     
-    def valid_data(self):
-        valid_data = tf.keras.preprocessing.image_dataset_from_directory(
+    def get_valid_data(self):
+        self.valid_data = tf.keras.preprocessing.image_dataset_from_directory(
              self.config.training_data,
              labels = 'inferred',
              label_mode = 'int',
@@ -27,7 +27,7 @@ class Evaluation:
 
         # train_data = train_data.cache().prefetch(buffer_size = AUTOTUNE)
 
-        valid_data = valid_data.cache().prefetch(buffer_size = AUTOTUNE)
+        self.valid_data = self.valid_data.cache().prefetch(buffer_size = AUTOTUNE)
 
         # return valid_data
     
@@ -37,7 +37,7 @@ class Evaluation:
     
     def evaluation(self):
         model = self.load_model(self.config.path_of_model)
-        self.valid_data()
+        self.get_valid_data()
         self.score = model.evaluate(self.valid_data)
 
     
