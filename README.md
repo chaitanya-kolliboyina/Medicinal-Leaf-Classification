@@ -6,7 +6,7 @@ When deep learning techniques are used, there is high chance that the model is b
   * Prone to overfitting 
   * Requires huge computational resources. 
 
-[!https://www.kaggle.com/code/chaitanyakolliboyina/medicinal-leaf-fine-tuning-inceptionresnetv2-94?scriptVersionId=165236135]Medicinal_leaf_Fine_tuning(InceptionResnetV2)-94%
+[Medicinal_leaf_Fine_tuning(InceptionResnetV2)-94%](https://www.kaggle.com/code/chaitanyakolliboyina/medicinal-leaf-fine-tuning-inceptionresnetv2-94?scriptVersionId=165236135)
 
 
 ## Transfer Learning
